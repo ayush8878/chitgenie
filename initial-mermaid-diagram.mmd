@@ -1,0 +1,44 @@
+flowchart TD
+    %% Forest Theme: Calm and organic
+    classDef user fill:#F0FFF0,stroke:#2E8B57,color:#000,stroke-width:2px;
+    classDef agent fill:#D2F8D2,stroke:#3CB371,color:#000,stroke-width:2px;
+    classDef tool fill:#F5DEB3,stroke:#D2691E,color:#000,stroke-width:2px;
+    classDef compute fill:#FAFAD2,stroke:#BDB76B,color:#000,stroke-width:2px;
+    classDef data fill:#F5F5DC,stroke:#8B4513,color:#000,stroke-width:2px;
+
+    subgraph "User Interaction"
+        User(User) --> UI(Frontend UI<br>Web/Mobile App)
+    end
+
+    subgraph "Data Ingestion Platform"
+        direction LR
+        RawData(Receipts, SMS, PDFs) --> GCS(Cloud Storage)
+        GCS -- Eventarc Trigger --> Func(Cloud Function)
+        Func --> Vision(Cloud Vision AI<br>OCR / Document AI)
+        Vision --> Func
+        Func --> DB[(Structured Data<br>Cloud SQL or BigQuery)]
+    end
+
+    subgraph "Agentic Backend on Cloud Run"
+        UI --> Core(Agentic Core<br>LangChain + Vertex AI)
+
+        Core -- "1 - Understand Query" --> NLU(NLU Service<br>Vertex AI Gemini)
+        NLU -- "2 - Intent & Entities" --> Core
+
+        Core -- "3 - Execute Tool" --> Analysis(Analysis Engine)
+        Analysis -- "4 - Query Data" --> DB
+        DB -- "5 - Return Data" --> Analysis
+        Analysis -- "6 - Return Result" --> Core
+
+        Core -- "7 - Generate Response" --> NLG(Response Generation<br>Vertex AI Gemini)
+        NLG -- "8 - Formatted Text" --> Core
+
+        Core -- "9 - Final Answer" --> UI
+    end
+
+    %% Apply styles
+    class User,UI user;
+    class Core,NLU,NLG agent;
+    class Analysis tool;
+    class Func,Vision compute;
+    class RawData,GCS,DB data;
