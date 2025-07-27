@@ -1,5 +1,9 @@
 # Receipt Processing System
 
+DEMO: https://drive.google.com/file/d/1wFAuF5UHPX5TlYOhOh0TqLd-K-zmuxGk/view?usp=drive_link
+
+CHITGENIE TELEGRAM BOT : https://drive.google.com/file/d/1o7pol-3e2aTcEr81FqQnztgDqJ45YMrp/view?usp=drive_link
+
 ## Overview
 
 An intelligent receipt processing system that handles user-submitted receipts through WhatsApp/Telegram/SMS, extracts data using OCR, categorizes expenses, and provides business intelligence insights. The system features both user-facing conversational interfaces and business-facing analytics.
